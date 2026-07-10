@@ -142,11 +142,41 @@ const store = {
 };
 
 function showModule(id) {
-  document.querySelectorAll("section.module").forEach(s => { s.hidden = s.id !== id; });
-  document.querySelectorAll("nav#nav a").forEach(a => a.classList.toggle("active", a.dataset.module === id));
-  document.getElementById("nav").classList.remove("open");
-  window.scrollTo({ top: 0 });
-  if (history.replaceState) history.replaceState(null, "", "#" + id);
+  const apply = () => {
+    document.querySelectorAll("section.module").forEach(s => { s.hidden = s.id !== id; });
+    document.querySelectorAll("nav#nav a").forEach(a => a.classList.toggle("active", a.dataset.module === id));
+    document.getElementById("nav").classList.remove("open");
+    window.scrollTo({ top: 0 });
+    if (history.replaceState) history.replaceState(null, "", "#" + id);
+  };
+  if (document.startViewTransition && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    document.startViewTransition(apply);
+  } else {
+    apply();
+  }
+}
+
+function initTheme() {
+  const btn = document.getElementById("theme-toggle");
+  const apply = t => {
+    document.documentElement.dataset.theme = t;
+    btn.textContent = t === "dark" ? "☀" : "☾";
+    localStorage.setItem("gdt-theme", t);
+  };
+  apply(document.documentElement.dataset.theme || "dark");
+  btn.addEventListener("click", () =>
+    apply(document.documentElement.dataset.theme === "dark" ? "light" : "dark"));
+}
+
+function initReveal() {
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.06 });
+  document.querySelectorAll(".widget, .symrow, .callout, table.neat, blockquote.reading, .symcard")
+    .forEach(el => { el.classList.add("reveal"); io.observe(el); });
 }
 
 function refreshProgress() {
@@ -894,6 +924,7 @@ function initDecode() {
    boot
 --------------------------------------------------------------- */
 document.addEventListener("DOMContentLoaded", () => {
+  initTheme();
   injectSymbols();
   injectFCFs();
   initNav();
@@ -910,4 +941,5 @@ document.addEventListener("DOMContentLoaded", () => {
   initQuiz();
   initDecode();
   initCheatTable();
+  initReveal();
 });

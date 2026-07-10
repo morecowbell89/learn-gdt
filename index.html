@@ -3,8 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="dark light">
+<meta name="theme-color" content="#0a0e14">
 <title>Learn GD&T — Interactive Course</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
+<script>
+/* apply saved theme before first paint to avoid a flash */
+document.documentElement.dataset.theme =
+  localStorage.getItem("gdt-theme") ||
+  (matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark");
+</script>
 </head>
 <body>
 
@@ -15,6 +26,7 @@
     <div class="progress-bar"><div id="progress-fill"></div></div>
     <span id="progress-label">0 / 13</span>
   </div>
+  <button id="theme-toggle" aria-label="Toggle color theme">☀</button>
 </header>
 
 <div class="layout">
