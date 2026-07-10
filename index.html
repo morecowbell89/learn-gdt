@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Learn GD&T — Interactive Course</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="topbar">
+  <button id="nav-toggle" aria-label="Toggle navigation">☰</button>
+  <div class="brand"><span class="brand-mark"></span> Learn GD&amp;T</div>
+  <div class="progress-wrap">
+    <div class="progress-bar"><div id="progress-fill"></div></div>
+    <span id="progress-label">0 / 13</span>
+  </div>
+</header>
+
+<div class="layout">
+<nav id="nav">
+  <div class="nav-group">Getting started</div>
+  <a data-module="home" class="active">Welcome</a>
+  <a data-module="why">1 · Why GD&amp;T Exists</a>
+  <a data-module="symbols">2 · The Symbol Family</a>
+  <a data-module="fcf">3 · Feature Control Frames</a>
+  <a data-module="datums">4 · Datums</a>
+  <div class="nav-group">The controls</div>
+  <a data-module="form">5 · Form Tolerances</a>
+  <a data-module="orientation">6 · Orientation Tolerances</a>
+  <a data-module="position">7 · Position</a>
+  <a data-module="mmc">8 · MMC, LMC &amp; Bonus</a>
+  <a data-module="profile">9 · Profile Tolerances</a>
+  <a data-module="runout">10 · Runout</a>
+  <a data-module="legacy">11 · Concentricity &amp; Symmetry</a>
+  <div class="nav-group">Practice</div>
+  <a data-module="quiz">12 · Quiz Yourself</a>
+  <a data-module="cheatsheet">13 · Cheat Sheet</a>
+</nav>
+
+<main>
+
+<!-- ============================================================ -->
+<section class="module" id="home">
+  <h1>Welcome 👋</h1>
+  <p class="lede">This is a self-paced, interactive course on <strong>Geometric Dimensioning and Tolerancing (GD&amp;T)</strong> per ASME Y14.5 — the language used on engineering drawings to say not just <em>how big</em> a feature is, but <em>what shape it must have, how it must be oriented, and where it must be</em>.</p>
+
+  <p>It's written for someone exactly like you: a mechanical engineering background, comfortable with tolerances like <code>25.4 ±0.1</code>, but new to the symbols, frames, and datum letters that cover modern drawings. No CAD required — everything here runs in your browser.</p>
+
+  <div class="callout tip">
+    <strong>How to use this course</strong>
+    <ul>
+      <li>Work through the modules in order — each builds on the last.</li>
+      <li>Play with every interactive widget. They're the fastest way to build intuition.</li>
+      <li>Mark each module complete when you're done; your progress is saved in this browser.</li>
+      <li>Finish with the quiz, and keep the cheat sheet handy afterwards.</li>
+    </ul>
+  </div>
+
+  <h2>What you'll be able to do</h2>
+  <ul>
+    <li>Read any feature control frame and translate it into plain English.</li>
+    <li>Understand all the geometric characteristic symbols and the tolerance zone each one creates.</li>
+    <li>Understand datums, datum reference frames, and why datum order matters.</li>
+    <li>Compute bonus tolerance from MMC/LMC modifiers and check a measured part against a position callout.</li>
+  </ul>
+
+  <div class="module-footer">
+    <button class="btn complete-btn" data-module="home">Mark complete ✓</button>
+    <button class="btn primary next-btn" data-next="why">Start: Why GD&amp;T Exists →</button>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section class="module" id="why" hidden>
+  <h1>1 · Why GD&amp;T Exists</h1>
+  <p class="lede">You already know coordinate (±) tolerancing. GD&amp;T exists because ± tolerancing alone can't fully describe what makes a part <em>function</em> — and it sometimes rejects perfectly good parts.</p>
+
+  <h2>The problem with ± everywhere</h2>
+  <p>Say a hole is located <code>20 ±0.1</code> from the left edge and <code>20 ±0.1</code> from the bottom edge. Three problems hide in that simple callout:</p>
+  <ol>
+    <li><strong>The tolerance zone is a square.</strong> The hole center may be 0.1&nbsp;mm off in X <em>and</em> 0.1&nbsp;mm off in Y (corner of the square, 0.141&nbsp;mm from nominal) and still pass — but a hole 0.12&nbsp;mm off along one axis fails. Distance from nominal is what matters for a mating pin, and the square treats equal distances unequally.</li>
+    <li><strong>Which edges, exactly?</strong> Real edges aren't perfect. If the left edge is bowed, where do you measure from? ± dims don't say. GD&amp;T answers this with <em>datums</em>.</li>
+    <li><strong>It says nothing about form or orientation.</strong> A face can be "25 ±0.1 thick" and still be wavy, tilted, or twisted in ways that ruin assembly.</li>
+  </ol>
+
+  <h2>Try it: square zone vs. cylindrical zone</h2>
+  <p>Below is the classic comparison. The square is the ±0.1/±0.1 coordinate zone; the circle is a position tolerance of <span class="fcf-inline">Ø0.283</span> — sized to circumscribe the square. <strong>Click (or drag) anywhere</strong> to place a measured hole center and see how each system judges it.</p>
+  <div class="widget" id="w-zonecompare"></div>
+  <p>The circle accepts every center the square accepts, <em>plus</em> the corners-of-equal-distance the square irrationally rejects — <strong>57% more usable tolerance area</strong>, for free, with no loss of function. That's the flagship argument for position tolerancing.</p>
+
+  <h2>What GD&amp;T adds</h2>
+  <ul>
+    <li><strong>Function-shaped tolerance zones</strong> — cylinders for hole axes, parallel planes for faces, 3D boundaries for complex profiles.</li>
+    <li><strong>Datums</strong> — an explicit, repeatable answer to "measure from where?", mirroring how the part actually sits in the assembly or fixture.</li>
+    <li><strong>Separate control of size, form, orientation, and location</strong> — each toleranced only as tightly as function demands.</li>
+    <li><strong>Bonus tolerance</strong> — extra location tolerance when a hole or pin is made favorably, matching the physics of clearance fits (module 8).</li>
+  </ul>
+
+  <div class="callout key">
+    <strong>Key takeaways</strong>
+    <ul>
+      <li>GD&amp;T supplements ± size tolerances; it doesn't replace them. Size still gets ± (or limit) dimensions.</li>
+      <li>Round (cylindrical) position zones match function and give 57% more area than the equivalent square.</li>
+      <li>The governing standard in the US is <strong>ASME Y14.5</strong> (2009 and 2018 editions are both common); ISO has an equivalent system (ISO 1101 / GPS) with mostly-identical symbols.</li>
+    </ul>
+  </div>
+
+  <div class="module-footer">
+    <button class="btn complete-btn" data-module="why">Mark complete ✓</button>
+    <button class="btn primary next-btn" data-next="symbols">Next: The Symbol Family →</button>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section class="module" id="symbols" hidden>
+  <h1>2 · The Symbol Family</h1>
+  <p class="lede">GD&amp;T has a compact vocabulary of <strong>geometric characteristic symbols</strong>, organized into five families. Each symbol defines a specific kind of tolerance zone. Click any card to expand it.</p>
+
+  <div class="legend">
+    <span class="chip cat-form">Form</span>
+    <span class="chip cat-orient">Orientation</span>
+    <span class="chip cat-loc">Location</span>
+    <span class="chip cat-profile">Profile</span>
+    <span class="chip cat-runout">Runout</span>
+  </div>
+
+  <div class="widget" id="w-symbolcards"></div>
+
+  <div class="callout note">
+    <strong>A note on editions:</strong> ASME Y14.5-2009 lists 14 symbols. The 2018 edition <em>removed</em> concentricity <i class="gs" data-s="concentricity"></i> and symmetry <i class="gs" data-s="symmetry"></i> (their jobs are done better by position and runout). You'll still meet them on older drawings, so they're covered in module 11.
+  </div>
+
+  <h2>The big pattern to remember</h2>
+  <table class="neat">
+    <thead><tr><th>Family</th><th>Controls</th><th>Datums?</th><th>Rule of thumb</th></tr></thead>
+    <tbody>
+      <tr><td><span class="chip cat-form">Form</span></td><td>Shape of a feature by itself</td><td><strong>Never</strong></td><td>"Is it straight/flat/round enough, ignoring everything else?"</td></tr>
+      <tr><td><span class="chip cat-orient">Orientation</span></td><td>Tilt relative to datums</td><td><strong>Always</strong></td><td>"Is it square/parallel/at-angle to the datum?"</td></tr>
+      <tr><td><span class="chip cat-loc">Location</span></td><td>Position of features</td><td>Almost always</td><td>"Is it in the right place?"</td></tr>
+      <tr><td><span class="chip cat-profile">Profile</span></td><td>Any/all of the above on any shape</td><td>Optional</td><td>The Swiss-army knife: a 3D boundary around the true shape.</td></tr>
+      <tr><td><span class="chip cat-runout">Runout</span></td><td>Wobble during rotation</td><td><strong>Always</strong> (an axis)</td><td>"Put it in a lathe and spin it against a dial indicator."</td></tr>
+    </tbody>
+  </table>
+
+  <div class="module-footer">
+    <button class="btn complete-btn" data-module="symbols">Mark complete ✓</button>
+    <button class="btn primary next-btn" data-next="fcf">Next: Feature Control Frames →</button>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section class="module" id="fcf" hidden>
+  <h1>3 · Feature Control Frames</h1>
+  <p class="lede">The <strong>feature control frame (FCF)</strong> is the sentence of the GD&amp;T language. Every geometric tolerance on a drawing lives in one of these rectangular frames, attached by a leader to a surface or to a size dimension.</p>
+
+  <h2>Anatomy of a frame</h2>
+  <p>Hover over (or tap) each compartment:</p>
+  <div class="widget" id="w-fcf-anatomy"></div>
+
+  <p>Read left to right, an FCF always says the same kind of sentence:</p>
+  <blockquote class="reading">"This feature's <strong>[characteristic]</strong> must fall within a <strong>[shape]</strong> tolerance zone of size <strong>[value]</strong> <strong>[at this material condition]</strong>, established relative to datums <strong>[A, then B, then C]</strong>."</blockquote>
+
+  <h2>Where the frame points matters</h2>
+  <ul>
+    <li><strong>Leader to a surface</strong> → the tolerance controls the <em>surface itself</em>.</li>
+    <li><strong>Attached to a size dimension</strong> (like <code>Ø10.0 ±0.2</code>) → the tolerance controls the <em>axis or center plane</em> of that feature of size. This is how position controls a hole's axis rather than its wall.</li>
+  </ul>
+
+  <h2>Two default rules you must know</h2>
+  <div class="callout key">
+    <ul>
+      <li><strong>Rule #1 — the Envelope Principle:</strong> for a feature of size, the size limits also control form. A shaft at its largest allowed size (MMC) must have <em>perfect form</em> — it must fit inside a perfect envelope at MMC. As it's made smaller, it may bend/bow by the amount it departed from MMC. So size tolerance alone already gives you some free form control.</li>
+      <li><strong>Rule #2 — RFS by default:</strong> if no <i class="gs" data-s="mmc"></i> or <i class="gs" data-s="lmc"></i> modifier appears, the tolerance applies <em>Regardless of Feature Size</em> (RFS): the stated value is what you get, no matter the actual size of the feature.</li>
+    </ul>
+  </div>
+
+  <h2>Build your own frame</h2>
+  <p>Assemble an FCF below and watch the plain-English translation update. Notice how the builder stops you from doing illegal things (form tolerances can't reference datums; runout can't take MMC).</p>
+  <div class="widget" id="w-builder"></div>
+
+  <div class="callout key">
+    <strong>Key takeaways</strong>
+    <ul>
+      <li>FCF order is always: symbol → zone size (with Ø if cylindrical, and modifier if any) → datum references in order of precedence.</li>
+      <li><strong>Basic dimensions</strong> (numbers in boxes, e.g. <span class="basic-dim">20</span>) are theoretically exact and carry no ± tolerance — the FCF supplies the tolerance for them.</li>
+      <li>What the frame attaches to decides whether it controls a surface or an axis/center plane.</li>
+    </ul>
+  </div>
+
+  <div class="module-footer">
+    <button class="btn complete-btn" data-module="fcf">Mark complete ✓</button>
+    <button class="btn primary next-btn" data-next="datums">Next: Datums →</button>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section class="module" id="datums" hidden>
+  <h1>4 · Datums</h1>
+  <p class="lede">Datums answer the question ± dimensioning dodges: <strong>measure from where?</strong> They define the coordinate system the part is inspected in — and, done right, it's the same coordinate system the part experiences in the assembly.</p>
+
+  <h2>Datum vs. datum feature</h2>
+  <ul>
+    <li>A <strong>datum feature</strong> is a real, imperfect surface on the part, labeled with a boxed letter on the drawing (Ⓐ on a stem: <span class="datum-tag">A</span>).</li>
+    <li>A <strong>datum</strong> is the <em>theoretical</em> perfect plane, axis, or point derived from that surface — what a perfect granite table or gauge pin "extracts" when it contacts the imperfect surface.</li>
+    <li>A <strong>datum reference frame (DRF)</strong> is the full coordinate system built from (usually) three datums — three mutually perpendicular planes.</li>
+  </ul>
+
+  <h2>The 3-2-1 rule</h2>
+  <p>A rigid body has six degrees of freedom: translation in X, Y, Z and rotation about each. A three-plane DRF removes them in sequence:</p>
+  <ul>
+    <li><strong>Primary datum</strong> — the part rests on it with a minimum of <strong>3 points</strong> of contact → kills 1 translation + 2 rotations.</li>
+    <li><strong>Secondary datum</strong> — slid against with <strong>2 points</strong> → kills 1 translation + 1 rotation.</li>
+    <li><strong>Tertiary datum</strong> — <strong>1 point</strong> → kills the last translation.</li>
+  </ul>
+
+  <h2>Try it: datum precedence</h2>
+  <p>The order of letters in the FCF is not decoration — it's the <em>clamping sequence</em>. Change the order below and watch how the same imperfect part sits differently in the gauge.</p>
+  <div class="widget" id="w-datumorder"></div>
+
+  <h2>Choosing datums well</h2>
+  <ul>
+    <li>Pick datum features that <strong>mate first in assembly</strong> — the mounting face, the pilot bore, the locating pin holes.</li>
+    <li>Primary should be the surface with the biggest, most stable contact.</li>
+    <li>Datum features can be planes <em>or</em> features of size: a bore used as a datum yields a datum <em>axis</em>; a slot yields a center plane.</li>
+  </ul>
+
+  <div class="callout key">
+    <strong>Key takeaways</strong>
+    <ul>
+      <li>Datum order = fixturing order. <span class="fcf-json" data-fcf='{"sym":"position","dia":true,"tol":"0.2","datums":["A","B","C"]}'></span> and <span class="fcf-json" data-fcf='{"sym":"position","dia":true,"tol":"0.2","datums":["B","A","C"]}'></span> are different requirements that can pass/fail different parts.</li>
+      <li>3-2-1: primary seats, secondary aligns, tertiary stops.</li>
+      <li>Datums are theoretical; datum features are real and imperfect.</li>
+    </ul>
+  </div>
+
+  <div class="module-footer">
+    <button class="btn complete-btn" data-module="datums">Mark complete ✓</button>
+    <button class="btn primary next-btn" data-next="form">Next: Form Tolerances →</button>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section class="module" id="form" hidden>
+  <h1>5 · Form Tolerances</h1>
+  <p class="lede">Form tolerances control the shape of a feature <em>by itself</em> — no datums, ever. They refine the free form control you already get from Rule&nbsp;#1 when size limits alone aren't tight enough.</p>
+
+  <div class="symgrid">
+    <div class="symrow"><i class="gs big" data-s="straightness"></i><div><strong>Straightness</strong> — each line element of a surface must lie between two parallel <em>lines</em> a tolerance apart. Applied to an axis (with Ø), the whole axis must fit in a tolerance <em>cylinder</em>.</div></div>
+    <div class="symrow"><i class="gs big" data-s="flatness"></i><div><strong>Flatness</strong> — the entire surface must lie between two parallel <em>planes</em> a tolerance apart. The planes float at any angle: flatness ignores orientation.</div></div>
+    <div class="symrow"><i class="gs big" data-s="circularity"></i><div><strong>Circularity (roundness)</strong> — at <em>each</em> cross-section independently, the surface must lie between two concentric circles whose radii differ by the tolerance.</div></div>
+    <div class="symrow"><i class="gs big" data-s="cylindricity"></i><div><strong>Cylindricity</strong> — the entire surface must lie between two <em>coaxial cylinders</em> whose radii differ by the tolerance. It's circularity + straightness + taper control in one.</div></div>
+  </div>
+
+  <h2>Try it: squeezing a surface between two planes</h2>
+  <p>This is a flatness check. The measured surface (exaggerated) has a certain peak-to-valley error. Tighten the tolerance and watch it fail:</p>
+  <div class="widget" id="w-flatness"></div>
+
+  <div class="callout note">
+    <strong>Watch the fine print:</strong> circularity and cylindricity tolerances are <em>radial</em> zone widths. A circularity tolerance of 0.05 means 0.05 between the two circles' radii — not diameters. Also note straightness applied to an axis with a Ø is the one form control that can be modified with <i class="gs" data-s="mmc"></i> and can override Rule #1's perfect-form-at-MMC envelope.
+  </div>
+
+  <div class="callout key">
+    <strong>Key takeaways</strong>
+    <ul>
+      <li>Form = shape only. No datums. The zone floats to best fit the feature.</li>
+      <li>Flatness zone = two parallel planes; circularity = two concentric circles per slice; cylindricity = two coaxial cylinders.</li>
+      <li>A form tolerance must be <em>tighter</em> than the size tolerance to mean anything (Rule #1 already gives form control equal to the size tolerance).</li>
+    </ul>
+  </div>
+
+  <div class="module-footer">
+    <button class="btn complete-btn" data-module="form">Mark complete ✓</button>
+    <button class="btn primary next-btn" data-next="orientation">Next: Orientation →</button>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section class="module" id="orientation" hidden>
+  <h1>6 · Orientation Tolerances</h1>
+  <p class="lede">Orientation tolerances control <strong>tilt relative to a datum</strong>. The zone is still usually two parallel planes (or a cylinder for an axis) — but now the zone is <em>locked at a specific angle</em> to the datum instead of floating.</p>
+
+  <div class="symgrid">
+    <div class="symrow"><i class="gs big" data-s="perpendicularity"></i><div><strong>Perpendicularity</strong> — the zone is held at exactly 90° to the datum. Common on faces that must sit square, and on hole axes (with Ø) that must be square to a mounting face.</div></div>
+    <div class="symrow"><i class="gs big" data-s="parallelism"></i><div><strong>Parallelism</strong> — the zone is held at exactly 0° to the datum. Controls a face staying parallel to an opposite face, or an axis parallel to another axis.</div></div>
+    <div class="symrow"><i class="gs big" data-s="angularity"></i><div><strong>Angularity</strong> — the zone is held at a <em>basic angle</em> (boxed, exact) to the datum. The angle itself carries no ±; the FCF value is the width of the zone.</div></div>
+  </div>
+
+  <div class="callout note">
+    <strong>An orientation tolerance also controls form.</strong> If a face must stay between two parallel planes 0.1 apart that are perpendicular to datum A, then that face is automatically also flat within 0.1. Orientation ⊃ form. (This nesting — location ⊃ orientation ⊃ form — is a core GD&amp;T idea: each higher-level control buys you the ones below it, within its zone.)
+  </div>
+
+  <h2>Reading an example</h2>
+  <p><span class="fcf-json" data-fcf='{"sym":"perpendicularity","dia":true,"tol":"0.1","mod":"M","datums":["A"]}'></span> attached to a <code>Ø8.0–8.2</code> hole means: <em>the hole's axis must fit inside a Ø0.1 cylindrical zone exactly perpendicular to datum A, with the zone growing by whatever the hole's size departs from MMC (Ø8.0)</em>. A gauge for this is a plate (datum A simulator) with a fixed perpendicular pin of Ø7.9 — the virtual condition. More on that in module 8.</p>
+
+  <div class="callout key">
+    <strong>Key takeaways</strong>
+    <ul>
+      <li>Orientation = tilt vs. a datum. Angularity uses a basic (boxed) angle; the tolerance is always a zone width, never degrees.</li>
+      <li>Perpendicularity and parallelism are just angularity at 90° and 0°.</li>
+      <li>Orientation zones also cap form error inside them.</li>
+    </ul>
+  </div>
+
+  <div class="module-footer">
+    <button class="btn complete-btn" data-module="orientation">Mark complete ✓</button>
+    <button class="btn primary next-btn" data-next="position">Next: Position →</button>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section class="module" id="position" hidden>
+  <h1>7 · Position — the workhorse</h1>
+  <p class="lede">Position <i class="gs" data-s="position"></i> is the most-used symbol in GD&amp;T. It controls <strong>where the axis or center plane of a feature of size must be</strong>, relative to a datum reference frame.</p>
+
+  <h2>How a position callout works</h2>
+  <ol>
+    <li><strong>Basic dimensions</strong> (boxed, exact) locate the <em>true position</em> — the theoretically perfect location of the hole's axis relative to the datums.</li>
+    <li>The FCF, e.g. <span class="fcf-json" data-fcf='{"sym":"position","dia":true,"tol":"0.25","mod":"M","datums":["A","B","C"]}'></span>, defines a <strong>cylindrical tolerance zone</strong> (Ø0.25) centered on that true position, perpendicular to the primary datum, running the full depth of the hole.</li>
+    <li>The hole's <strong>actual axis</strong> — the axis of the largest perfect pin that fits, roughly speaking — must lie entirely inside that cylinder.</li>
+  </ol>
+
+  <h2>Checking a measured part</h2>
+  <p>Your CMM reports the hole center is off by ΔX and ΔY from true position. The diametral position deviation is:</p>
+  <p class="formula">deviation = 2 × √(ΔX² + ΔY²)  — compare against the Ø tolerance</p>
+  <p>(The factor of 2 converts the radial offset into a diameter, to match the Ø zone.) Try it:</p>
+  <div class="widget" id="w-poscalc"></div>
+
+  <h2>Why position beats ± location</h2>
+  <ul>
+    <li>Round zone matches function (module 1's 57% argument).</li>
+    <li>Datum sequence makes measurement repeatable.</li>
+    <li>With <i class="gs" data-s="mmc"></i>, it earns <strong>bonus tolerance</strong> and enables cheap fixed-pin functional gauges (next module).</li>
+    <li>Hole <em>patterns</em> can be toleranced as a group, controlling hole-to-hole spacing tightly while letting the whole pattern float more generously.</li>
+  </ul>
+
+  <div class="callout key">
+    <strong>Key takeaways</strong>
+    <ul>
+      <li>Position needs basic dimensions to define true position, and (nearly always) datums.</li>
+      <li>Ø in the frame → cylindrical zone about the axis. No Ø → two parallel planes (used for slots/tabs, center planes).</li>
+      <li>Deviation = 2√(ΔX²+ΔY²). A hole 0.1 off in both X and Y is 0.283 off in position — worse than 0.12 off in X alone (0.24). Compare that to how the ± square zone judged the same two cases in module 1.</li>
+    </ul>
+  </div>
+
+  <div class="module-footer">
+    <button class="btn complete-btn" data-module="position">Mark complete ✓</button>
+    <button class="btn primary next-btn" data-next="mmc">Next: MMC, LMC &amp; Bonus →</button>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section class="module" id="mmc" hidden>
+  <h1>8 · MMC, LMC &amp; Bonus Tolerance</h1>
+  <p class="lede">Material condition modifiers are where GD&amp;T stops being notation and starts being <em>economics</em>: they legally enlarge your tolerance zone when the part is made in a favorable direction.</p>
+
+  <h2>Definitions</h2>
+  <table class="neat">
+    <thead><tr><th></th><th>Hole (internal)</th><th>Shaft (external)</th><th>Mnemonic</th></tr></thead>
+    <tbody>
+      <tr><td><strong>MMC</strong> <i class="gs" data-s="mmc"></i><br>Maximum Material Condition</td><td>Smallest hole</td><td>Largest shaft</td><td>The heaviest the part can be</td></tr>
+      <tr><td><strong>LMC</strong> <i class="gs" data-s="lmc"></i><br>Least Material Condition</td><td>Largest hole</td><td>Smallest shaft</td><td>The lightest the part can be</td></tr>
+    </tbody>
+  </table>
+
+  <h2>The physics of bonus tolerance</h2>
+  <p>A clearance pin must pass through a hole. The <em>worst case</em> is the smallest hole (MMC). If the hole happens to be drilled bigger than MMC, there is physically more room — the hole could be further off-location and the pin would still fit. The <i class="gs" data-s="mmc"></i> modifier writes that physical truth into the tolerance:</p>
+  <p class="formula">total position tolerance = stated tolerance + (actual size − MMC size)   [for a hole]</p>
+  <p>The second term is the <strong>bonus</strong>. At MMC the bonus is zero; at LMC it's the entire size tolerance.</p>
+
+  <h2>Try it: bonus tolerance calculator</h2>
+  <p>Hole: <code>Ø10.0–10.6</code> with <span class="fcf-json" data-fcf='{"sym":"position","dia":true,"tol":"0.2","mod":"M","datums":["A","B","C"]}'></span>. Slide the actual produced size:</p>
+  <div class="widget" id="w-bonus"></div>
+
+  <h2>Virtual condition — the gauge-maker's number</h2>
+  <p>The <strong>virtual condition (VC)</strong> is the worst-case boundary generated by size and geometric tolerance combined:</p>
+  <ul>
+    <li>Hole with tolerance at MMC: <code>VC = MMC − geo tol</code> → for the example above, 10.0 − 0.2 = <strong>Ø9.8</strong>. A fixed gauge pin of Ø9.8 at true position checks the whole requirement in one plunge — no CMM needed.</li>
+    <li>Shaft with tolerance at MMC: <code>VC = MMC + geo tol</code> → the smallest hole that always clears it.</li>
+  </ul>
+
+  <h2>When to use which</h2>
+  <ul>
+    <li><i class="gs" data-s="mmc"></i> — <strong>clearance-fit assembly</strong>: bolts through holes, pins into slots. The most common modifier by far. Cheapest to inspect (functional gauges) and to make (bonus).</li>
+    <li><i class="gs" data-s="lmc"></i> — protecting a <strong>minimum wall/edge distance</strong>: a hole near an edge, a boss that must retain material for a later machining op.</li>
+    <li><strong>RFS</strong> (no modifier — the default per Rule #2) — when function depends on the actual center regardless of size: press fits, balance-critical rotating parts, centering.</li>
+  </ul>
+
+  <div class="callout key">
+    <strong>Key takeaways</strong>
+    <ul>
+      <li>Bonus = |actual size − MMC size|, added to the stated tolerance, only when <i class="gs" data-s="mmc"></i> is present.</li>
+      <li>Virtual condition (hole, at MMC) = MMC − tol; it's the size of the functional gauge pin.</li>
+      <li>Modifiers apply only to <strong>features of size</strong> (things with a dimension and an axis/center plane) — never to a plain surface.</li>
+    </ul>
+  </div>
+
+  <div class="module-footer">
+    <button class="btn complete-btn" data-module="mmc">Mark complete ✓</button>
+    <button class="btn primary next-btn" data-next="profile">Next: Profile →</button>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section class="module" id="profile" hidden>
+  <h1>9 · Profile Tolerances</h1>
+  <p class="lede">Profile is GD&amp;T's most powerful — and, on modern drawings, increasingly dominant — control. It wraps a uniform 3D boundary around <em>any</em> shape, including curves and freeform surfaces that nothing else can tolerance.</p>
+
+  <div class="symgrid">
+    <div class="symrow"><i class="gs big" data-s="profile_line"></i><div><strong>Profile of a line</strong> — controls each 2D cross-section independently (like circularity generalized to any curve).</div></div>
+    <div class="symrow"><i class="gs big" data-s="profile_surface"></i><div><strong>Profile of a surface</strong> — controls the entire surface as one 3D requirement (like cylindricity generalized to any shape). This is the one you'll see most.</div></div>
+  </div>
+
+  <h2>How the zone works</h2>
+  <ul>
+    <li>The <strong>true profile</strong> is defined entirely by basic dimensions (or the CAD model itself).</li>
+    <li>The tolerance value is the <strong>total width</strong> of a zone centered on the true profile — by default split equally, half outside, half inside (<em>equal bilateral</em>).</li>
+    <li>Unequal split is shown with the <i class="gs" data-s="unequal"></i> modifier (2018) — e.g. <code>1.0 Ⓤ 0.8</code> means 1.0 total, 0.8 of it outward.</li>
+    <li>With datums → profile controls <strong>location + orientation + form</strong> all at once. Without datums → form only.</li>
+  </ul>
+
+  <h2>Why it's taking over</h2>
+  <p>In model-based drawings, a single note like <span class="fcf-json" data-fcf='{"sym":"profile_surface","tol":"0.5","datums":["A","B","C"]}'></span> "unless otherwise specified" can tolerance <em>every surface of the part</em> relative to the CAD model in one shot, with tighter callouts only where function demands. One frame replaces dozens of ± dimensions.</p>
+
+  <div class="callout key">
+    <strong>Key takeaways</strong>
+    <ul>
+      <li>Profile = a uniform-thickness boundary around the exact (basic/CAD) shape.</li>
+      <li>The value is a <em>total</em> zone width, default equally disposed about the true profile.</li>
+      <li>Datums optional: with them it locates; without them it's pure form for any shape.</li>
+    </ul>
+  </div>
+
+  <div class="module-footer">
+    <button class="btn complete-btn" data-module="profile">Mark complete ✓</button>
+    <button class="btn primary next-btn" data-next="runout">Next: Runout →</button>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section class="module" id="runout" hidden>
+  <h1>10 · Runout</h1>
+  <p class="lede">Runout is the tolerance for <strong>rotating parts</strong>: shafts, spindles, pulleys, anything that spins about a datum axis. It's defined by its inspection method — chuck the part on its datum axis, spin it, and read a dial indicator.</p>
+
+  <div class="symgrid">
+    <div class="symrow"><i class="gs big" data-s="runout_circ"></i><div><strong>Circular runout</strong> — at each axial position <em>independently</em>, the total indicator swing (FIM — full indicator movement) per revolution must not exceed the tolerance. Catches eccentricity and out-of-round at each slice.</div></div>
+    <div class="symrow"><i class="gs big" data-s="runout_total"></i><div><strong>Total runout</strong> — the indicator is also swept <em>along</em> the surface; every reading over the whole surface must stay within one band. Adds control of taper and straightness. Zone = two coaxial cylinders about the datum axis.</div></div>
+  </div>
+
+  <h2>Try it: spin the part</h2>
+  <p>This shaft's outer surface is eccentric to the datum axis (exaggerated). Watch the indicator; the FIM is the runout reading. Note FIM = 2 × eccentricity.</p>
+  <div class="widget" id="w-runout"></div>
+
+  <div class="callout note">
+    <strong>Runout rules:</strong> always requires a datum axis; always applies RFS (no <i class="gs" data-s="mmc"></i> allowed — you physically spin the actual part); circular runout simultaneously limits circularity and coaxiality, total runout adds cylindricity. Runout is a cheap, functional composite check for anything rotating.
+  </div>
+
+  <div class="callout key">
+    <strong>Key takeaways</strong>
+    <ul>
+      <li>Circular = per-slice FIM; Total = whole-surface band.</li>
+      <li>Datum axis required; RFS only.</li>
+      <li>FIM from pure eccentricity e is 2e — the indicator sees the high side and the low side each revolution.</li>
+    </ul>
+  </div>
+
+  <div class="module-footer">
+    <button class="btn complete-btn" data-module="runout">Mark complete ✓</button>
+    <button class="btn primary next-btn" data-next="legacy">Next: Concentricity &amp; Symmetry →</button>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section class="module" id="legacy" hidden>
+  <h1>11 · Concentricity &amp; Symmetry (legacy)</h1>
+  <p class="lede">Two symbols you'll meet on older drawings — and should almost never put on new ones. ASME Y14.5-2018 deleted both.</p>
+
+  <div class="symgrid">
+    <div class="symrow"><i class="gs big" data-s="concentricity"></i><div><strong>Concentricity</strong> — required all diametrically-opposed <em>median points</em> of a surface of revolution to lie within a cylindrical zone about the datum axis. Note: median points, not the surface — which made it brutally expensive to inspect (you can't check it with a gauge or a simple indicator sweep).</div></div>
+    <div class="symrow"><i class="gs big" data-s="symmetry"></i><div><strong>Symmetry</strong> — the same median-point idea for slots/tabs about a datum center plane. Same inspection pain.</div></div>
+  </div>
+
+  <h2>What to use instead</h2>
+  <table class="neat">
+    <thead><tr><th>If the function is…</th><th>Use</th></tr></thead>
+    <tbody>
+      <tr><td>Parts must assemble coaxially (fit)</td><td>Position <i class="gs" data-s="position"></i> at MMC</td></tr>
+      <tr><td>Rotating part must not wobble (dynamic balance-ish, sealing, bearing seats)</td><td>Runout <i class="gs" data-s="runout_circ"></i> / <i class="gs" data-s="runout_total"></i></td></tr>
+      <tr><td>True mass-distribution balance</td><td>An actual balance spec — not GD&amp;T</td></tr>
+      <tr><td>Slot/tab centered for fit</td><td>Position (no Ø → parallel-plane zone) at MMC</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout key">
+    <strong>Key takeaways</strong>
+    <ul>
+      <li>If you see <i class="gs" data-s="concentricity"></i> or <i class="gs" data-s="symmetry"></i> on a drawing, it's pre-2018 (or ISO, where concentricity lives on). Ask what function was intended; it's usually position or runout in disguise.</li>
+      <li>Don't specify them on new ASME drawings.</li>
+    </ul>
+  </div>
+
+  <div class="module-footer">
+    <button class="btn complete-btn" data-module="legacy">Mark complete ✓</button>
+    <button class="btn primary next-btn" data-next="quiz">Next: Quiz →</button>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section class="module" id="quiz" hidden>
+  <h1>12 · Quiz Yourself</h1>
+  <p class="lede">Two ways to practice: a mixed 10-question quiz drawn from a larger bank, and a "decode the frame" drill that shows you real feature control frames to translate.</p>
+
+  <h2>Mixed quiz</h2>
+  <div class="widget" id="w-quiz"></div>
+
+  <h2>Decode the frame</h2>
+  <p>Read the FCF, pick the correct plain-English translation:</p>
+  <div class="widget" id="w-decode"></div>
+
+  <div class="module-footer">
+    <button class="btn complete-btn" data-module="quiz">Mark complete ✓</button>
+    <button class="btn primary next-btn" data-next="cheatsheet">Next: Cheat Sheet →</button>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section class="module" id="cheatsheet" hidden>
+  <h1>13 · Cheat Sheet</h1>
+  <p class="lede">Everything on one page. Bookmark this module.</p>
+
+  <h2>All symbols</h2>
+  <div class="widget" id="w-cheattable"></div>
+
+  <h2>Modifiers</h2>
+  <table class="neat">
+    <tbody>
+      <tr><td><i class="gs" data-s="dia"></i></td><td><strong>Ø</strong> — cylindrical tolerance zone (about an axis)</td></tr>
+      <tr><td><i class="gs" data-s="mmc"></i></td><td><strong>MMC</strong> — applies at maximum material; bonus as size departs toward LMC</td></tr>
+      <tr><td><i class="gs" data-s="lmc"></i></td><td><strong>LMC</strong> — applies at least material; bonus toward MMC; protects min wall</td></tr>
+      <tr><td><i class="gs" data-s="proj"></i></td><td><strong>Projected tolerance zone</strong> — zone extends above the surface (for studs/press-fit pins where the mating part lives)</td></tr>
+      <tr><td><i class="gs" data-s="tangent"></i></td><td><strong>Tangent plane</strong> — orientation applies to a plane contacting the high points, not the whole surface</td></tr>
+      <tr><td><i class="gs" data-s="freestate"></i></td><td><strong>Free state</strong> — applies with the (flexible) part unrestrained</td></tr>
+      <tr><td><i class="gs" data-s="unequal"></i></td><td><strong>Unequally disposed profile</strong> — how much of the profile zone lies outward of the true profile</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Formulas</h2>
+  <table class="neat">
+    <tbody>
+      <tr><td>Position deviation (Ø zone)</td><td><code>2 × √(ΔX² + ΔY²)</code></td></tr>
+      <tr><td>Bonus tolerance (with Ⓜ)</td><td><code>|actual size − MMC size|</code></td></tr>
+      <tr><td>Total available tolerance</td><td><code>stated + bonus</code></td></tr>
+      <tr><td>Virtual condition — hole @ MMC</td><td><code>MMC − geo tol</code> (gauge pin size)</td></tr>
+      <tr><td>Virtual condition — shaft @ MMC</td><td><code>MMC + geo tol</code> (gauge hole size)</td></tr>
+      <tr><td>Runout FIM from eccentricity e</td><td><code>2e</code></td></tr>
+    </tbody>
+  </table>
+
+  <h2>The rules</h2>
+  <ul>
+    <li><strong>Rule #1:</strong> size limits control form — perfect form required at MMC (the envelope). </li>
+    <li><strong>Rule #2:</strong> RFS applies unless Ⓜ or Ⓛ is stated.</li>
+    <li><strong>Basic dimensions</strong> (boxed) are exact; their tolerance comes from an FCF.</li>
+    <li><strong>Datum order</strong> = fixturing order: 3 points primary, 2 secondary, 1 tertiary.</li>
+    <li><strong>Control nesting:</strong> location ⊃ orientation ⊃ form — each also limits the ones below it.</li>
+  </ul>
+
+  <h2>Where to go next</h2>
+  <ul>
+    <li>Get a copy of <strong>ASME Y14.5-2018</strong> (or -2009) — the actual standard is surprisingly readable.</li>
+    <li>Practice on real drawings from your work; translate every FCF into a sentence.</li>
+    <li>Look into <em>composite position tolerancing</em> and <em>datum feature modifiers</em> as your next-level topics — this course gives you everything needed to approach them.</li>
+  </ul>
+
+  <div class="module-footer">
+    <button class="btn complete-btn" data-module="cheatsheet">Mark complete ✓</button>
+  </div>
+</section>
+
+</main>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
