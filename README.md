@@ -8,6 +8,8 @@ An interactive, browser-based course on **Geometric Dimensioning and Tolerancing
 
 Pure HTML/CSS/JavaScript — no frameworks, no build step, no server. Open it and learn.
 
+The UI is built on modern web platform features: dark/light theming with a toggle (respects your OS preference), CSS design tokens with `color-mix()`, a glassmorphism top bar, the View Transitions API for page changes, and motion-safe scroll-reveal animations via IntersectionObserver — all of which run fine on GitHub Pages because they're 100% client-side.
+
 <p align="center">
   <img src="docs/screenshot-fcf.png" alt="Feature control frame anatomy module" width="800">
 </p>
@@ -73,6 +75,7 @@ docs/         README screenshots
 Implementation notes:
 
 - **GD&T symbols are drawn as inline SVG**, not Unicode glyphs, so rendering never depends on font support.
+- **Widget diagrams re-theme automatically**: the SVG drawing code uses a fixed palette, and CSS attribute selectors remap every color onto dark/light design tokens.
 - **Feature control frames are rendered from a small JSON spec** (`{"sym":"position","dia":true,"tol":"0.25","mod":"M","datums":["A","B","C"]}`), so lessons, the builder, and the drills all share one renderer.
 - **Progress and best quiz scores** live in `localStorage` — nothing leaves your browser.
 
